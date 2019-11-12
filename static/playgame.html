@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+			<script src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
+
+			<!--<script src="{{ url_for('static', filename='playgame.js') }}"></script>-->
+			<script>
+				$(".form-inline").click(function() {
+					// get the JSON
+					//$("." + answer).text("Processing");
+					$.post('/processresponse',  {
+					answer: $('input[name="answer"]').val()
+					}).done(function(data) {
+						$("." + answer).text("Processed " + data.answer)
+					}).fail(function() {
+						$("." + answer).text("Could not process");
+					});
+			</script>
+
+			{% for question in questions %}
+
+			<div><p><h1>{{ question.question }}:</h1></p>
+
+				<h1> We are in STATIC</h1>
+
+			{% endfor %}
+
+			<br>
+
+			</div>
+
+
+			<br><br>
+
+		   
+			{% for answer in answers %}
+			<form class="form-inline" id="response">
+					<input type="hidden" name="answer_id" value="{{ answer[1] }}">
+					<input type="submit" name="answer" value="{{ answer[0] }}">
+					
+			</form>
+				{% endfor %}
+			
+		
+{% endblock %}
+

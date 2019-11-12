@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+			<script src="{{ url_for('static', filename='jquery-3.2.1.min.js') }}"></script>
+
+			<!--<script src="{{ url_for('static', filename='playgame.js') }}"></script>-->
+
+			<script>
+	
+
+				function process(answer, answer_id, responseElem) {
+
+					// get the JSON
+					//$("." + answer).text("Processing");
+					
+					$.post('/processresponse',  {
+						
+						answer: answer,
+						answer_id: answer_id
+
+					}).done(function(response) {
+
+						$(responseElem).text("Voted!");
+						setTimeout(function() { $(responseElem).text(""); }, 1000);
+
+					}).fail(function() {
+
+						$(responseElem).text("Could not process!");
+						setTimeout(function() { $(responseElem).text(""); }, 1000);
+					});
+
+				}
+				
+			</script>
+			
+			{% for question in questions %}
+
+			<div><p><h1>{{ question.question }}:</h1></p>
+
+			{% endfor %}
+
+			<br>
+
+
+
+			<br><br>
+
+			</div>
+		   
+			{% for answer in answers %}
+			<!-- define the ID of the answer -->
+				<span color="green" id="{{ answer[1] }}">
+				</span>
+					
+					<a href="javascript:process(
+								'{{ answer[0] }}',
+								'{{ answer[1] }}',
+								'#{{ answer[1] }}');">{{ answer[0] }}</a>
+								<br><br>
+
+				
+
+<!--				<input type="hidden" name="answer_id" value="{{ answer[1] }}">
+				<button type="button" class="form-inline" name="answer" id="{{ answer[1] }}">{{ answer[0] }}</button>
+				<span id="{{ answer[0] }}"></span>-->
+
+			<!--<form class="form-inline" method="post" action="/processresponse">
+
+					<input type="hidden" name="answer_id" value="{{ answer[1] }}">
+					<input type="submit" name="answer" value="{{ answer[0] }}">
+					<span id="{{ answer[0] }}"></span>
+			</form>-->
+				{% endfor %}
+			
+		
+{% endblock %}

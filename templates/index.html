@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+			<h1>Enter Room Code</h1>
+			<form action="/enterroom" method="post">
+				{{ form.hidden_tag() }}
+				<p>
+					{{ form.roomcode.label }}<br>
+					{{ form.roomcode(size=32) }}
+
+					{% for error in form.roomcode.errors %}
+					<span style="color: red;">[{{ error }}]</span>
+					{% endfor %}
+				</p>
+
+				<p> {{ form.enterroom() }} </p>
+			</form>
+				
+{% endblock %}

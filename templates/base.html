@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<!-- Bring in SCRIPT_ROOT variable for js AJAX -->
+		<script type=text/javascript>$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+
+		{% if title %}
+		<title>{{ title }} -- Quiz</title>
+		{% else %}
+		<title> Welcome to the Quiz</title>
+		{% endif %}
+	</head>
+	<body>
+					<div><h1>Quiz Time!<a href="{{ url_for('index') }}">Home</a></h1></div>
+			<hr>
+			{% with messages = get_flashed_messages() %}
+			{% if messages %}
+			<ul>
+				{% for message in messages %}
+				<li>{{ message }}</li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+			{% endwith %}
+			{% block content %}{% endblock %}
+	</body>
+</html>
